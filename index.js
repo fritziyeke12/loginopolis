@@ -26,7 +26,7 @@ app.post("/register", async (req, res, next) => {
     let hashedPw = await bcrypt.hash(password, SALT_LENGTH); //hashes the password passed into the req.body
     let user = await User.create({username, password: hashedPw}); //creates a new user in the db with the passed in username and pw
 
-    res.status(201).send(user);//returns the created user
+    res.status(200).send(`successfully created user ${username}`);//returns the created user
 
   } catch (error) {
     next(error);
@@ -52,10 +52,10 @@ app.post("/login", async (req, res, next) => {
     let isMatch = await bcrypt.compare(password, foundUser.password);//compares the inputted pw with the hashed pw in the db
 
     if(isMatch){
-      res.status(202).send("Logged in");//logs in is the pw is valid
+      res.status(200).send(`successfully logged in user ${username}`);//logs in is the pw is valid
     }
     else{
-      res.status(401).send("Incorrect Password");//401 is unathourised
+      res.status(401).send("incorrect username or password");//401 is unathourised
     }
 
   } catch (error) {
